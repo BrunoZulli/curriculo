@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="style.css">
     <!-- Link para Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <audio id="music-player" controls autoplay loop>
+        <source src="https://www.youtube.com/watch?v=1l4DroBC4J4&ab_channel=Starbucks-%ED%94%8C%EB%A0%88%EC%9D%B4%EB%A6%AC%EC%8A%A4%ED%8A%B8%EC%9D%8C%EC%95%85" type="audio/mpeg">
+        Seu navegador não suporta o elemento de áudio.
+    </audio>
+<button id="toggle-theme">Modo Escuro/Claro</button>
+    
 </head>
 <body>
     <header class="hero-section">
@@ -87,6 +93,8 @@
                 <span>Interdisciplinaridade</span>
                 <span>Eficiência Jurídica</span>
                 <span>Norma Culta</span>
+                <span>Inteligência Artificial</span>
+                <span>IA</span>
             </div>
         </section>
 
@@ -108,8 +116,6 @@
             <h2>🧠 Áreas de Atuação Jurídica</h2>
             <ul>
                 <li>Direito Civil e Contratual</li>
-                <li>Direito do Consumidor</li>
-                <li>Direito Criminal</li>
                 <li>Direito do Trabalho e Reclamatórias Estratégicas</li>
                 <li>Direito Administrativo (com atuação prática no MP e TJSP)</li>
                 <li>Consultoria Jurídica Empresarial</li>
@@ -163,6 +169,7 @@
 
         <section id="habilidades" class="panel interactive-panel">
             <h2>✨ Habilidades & Meu Diferencial de Mercado</h2>
+            <p class="dashboard-tip">💡 **Clique nas abas abaixo** para explorar minhas habilidades técnicas, comportamentais e, especialmente, os **dashboards interativos** que demonstram meu diferencial!</p>
             <div class="tabs">
                 <button class="tab-button active" onclick="showTab('tecnicas')">Técnicas</button>
                 <button class="tab-button" onclick="showTab('comportamentais')">Comportamentais</button>
@@ -180,6 +187,7 @@
                     <li>PDF</li>
                     <li>Microsoft Office</li>
                     <li>Windows</li>
+                    <li>Inteligência Artificial (IA)</li>
                 </ul>
                 <p>Atuação especializada em processamento de dados e visão global, apto a auxiliar decisões estratégicas no RH, jurídico, diretoria e contabilidade. Minhas formações permitem uma abordagem única e sistêmica, que traduz múltiplas linguagens técnicas em soluções coesas, integradas e orientadas à performance.</p>
             </div>
@@ -245,6 +253,10 @@
                 <li><strong>Website Pessoal:</strong> <a href="https://zullijuridico.wixsite.com/website" target="_blank">zullijuridico.wixsite.com/website</a></li>
                 <li><strong>Linktree Pessoal:</strong> <a href="https://linktr.ee/zullijuridico" target="_blank">linktr.ee/zullijuridico</a></li>
             </ul>
+            <div class="export-options">
+                <button onclick="window.print()">Imprimir Currículo</button>
+                <button onclick="exportPdf()">Exportar para PDF</button>
+            </div>
         </section>
     </main>
 
