@@ -39,11 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Função para exportar para PDF (usa a funcionalidade de impressão do navegador)
-function exportPdf() {
-    window.print();
-}
-
 // --- Lógica para os Dashboards (usando Chart.js) ---
 
 // 1. Gráfico de Interseção de Habilidades (Gráfico de Rosca/Doughnut)
