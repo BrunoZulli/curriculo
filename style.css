@@ -543,7 +543,7 @@ footer {
 
     /* Opcional: Se você quiser exibir uma mensagem específica na impressão */
     body::before {
-        content: "O conteúdo deste currículo não pode ser impresso ou copiado diretamente. Por favor, utilize o link de compartilhamento ou baixe o PDF para melhor visualização.";
+        content: "O conteúdo deste currículo não pode ser impresso ou copiado diretamente. Por favor, utilize o link de compartilhamento ou baixe o PDF ao final da página para melhor visualização.";
         visibility: visible !important;
         position: fixed;
         top: 50%;
