@@ -13,6 +13,34 @@
     </audio>
 <button id="toggle-theme">Modo Escuro/Claro</button>
     
+
+    <script>
+        // Proteção anticópia
+        document.addEventListener('copy', function(event) {
+            event.preventDefault();
+            const message = "Vocês pode compartilhar essas informações através do link https://brunozulli.github.io/curriculo/";
+            event.clipboardData.setData('text/plain', message);
+
+            // Exibir o aviso de compartilhamento
+            const shareNotice = document.getElementById('share-notice');
+            shareNotice.classList.add('show'); // Adiciona a classe 'show' para mostrar o aviso
+
+            // Ocultar o aviso após 5 segundos
+            setTimeout(() => {
+                shareNotice.classList.remove('show'); // Remove a classe 'show' para ocultar o aviso
+            }, 5000);
+        });
+
+        // Função para copiar o link do currículo
+        document.getElementById('share-button').addEventListener('click', function() {
+            const shareLink = "https://brunozulli.github.io/curriculo/";
+            navigator.clipboard.writeText(shareLink).then(function() {
+                alert("Link copiado para a área de transferência! Compartilhe com outras pessoas.");
+            }, function(err) {
+                console.error('Erro ao copiar o link: ', err);
+            });
+        });
+    </script>
 </head>
 <body>
     <header class="hero-section">
@@ -257,17 +285,27 @@
                 <li><strong>Linktree Pessoal:</strong> <a href="https://linktr.ee/zullijuridico" target="_blank">linktr.ee/zullijuridico</a></li>
             </ul>
             <div class="export-options">
-                <button onclick="window.print()">Imprimir Currículo</button>
-                <!-- NOVO LINK PARA O PDF -->
-                <a href="https://raw.githubusercontent.com/BrunoZulli/curriculo/1a4c553bb2171568b93066fdedb858edaa7f800c/Curriculo_Juridico_Bruno_Zulli%202025%203.pdf" download="Bruno_Zulli_Curriculo.pdf" target="_blank" class="button-as-link">Baixar Currículo em PDF</a>
+                <!-- REMOVIDO: Botão de Imprimir Currículo -->
+                <!-- NOVO LINK PARA O PDF PROTEGIDO -->
+                <a href="https://raw.github.com/BrunoZulli/curriculo/8cbc4b90b63df717d1864afa17a2b9484a76b4e2/Curriculo_Juridico_Bruno_Zulli%202025%204.pdf" download="Bruno_Zulli_Curriculo_Protegido.pdf" target="_blank" class="button-as-link">Baixar Currículo em PDF</a>
             </div>
         </section>
     </main>
 
-    <footer>
-        <p>&copy; 2024 Bruno Miguel do Prado Zulli de Lima. Todos os direitos reservados.</p>
-    </footer>
-
     <script src="script.js"></script>
+</body>
+</html>
+
+<!-- O div do aviso deve estar fora do main, talvez logo antes do footer,
+     ou com position: fixed para aparecer em um canto da tela -->
+<div id="share-notice" class="share-notice">
+    <p>Deseja compartilhar este currículo? <button id="share-button">Clique aqui</button></p>
+    <p>Este conteúdo é protegido pela lei de direitos autorais como direito intelectual.</p>
+</div>
+
+<footer>
+    <p>&copy; 2025 Bruno Zulli. Todos os direitos reservados.</p>
+    <p>Compartilhe este currículo: <a href="https://brunozulli.github.io/curriculo/" target="_blank">brunozulli.github.io/curriculo</a></p>
+</footer>
 </body>
 </html>
