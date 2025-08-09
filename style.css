@@ -527,54 +527,37 @@ footer {
     }
 }
 
-/* Estilos para impressão (REMOVIDO: @media print para desabilitar impressão) */
-/* Oculta elementos não essenciais para impressão */
+/* CORREÇÃO: Estilos para bloquear a impressão */
 @media print {
-    body {
-        background-color: #fff;
-        color: #000;
+    /* Oculta todo o corpo do documento */
+    body * {
+        visibility: hidden !important; /* Torna todos os elementos invisíveis */
+        height: 0 !important; /* Colapsa o espaço que ocupam */
+        overflow: hidden !important; /* Esconde qualquer conteúdo transbordante */
+        margin: 0 !important; /* Remove margens */
+        padding: 0 !important; /* Remove paddings */
+        border: none !important; /* Remove bordas */
+        font-size: 0 !important; /* Reduz o tamanho da fonte para 0 */
+        line-height: 0 !important; /* Reduz a altura da linha para 0 */
     }
-    .hero-section, footer, .main-nav, #toggle-theme, #music-player, .export-options, .dashboard-tip, .share-notice {
-        display: none !important; /* Garante que esses elementos não apareçam na impressão */
-    }
-    .container {
-        max-width: 100%;
-        padding: 0;
-        margin: 0;
-    }
-    .panel {
-        box-shadow: none;
-        border: 1px solid #eee;
-        margin-bottom: 15px;
-        page-break-inside: avoid; /* Evita quebra de página dentro de um painel */
-    }
-    .panel h2 {
-        color: #000;
-        border-bottom: 1px solid #ccc;
-    }
-    .timeline-item::before {
-        background-color: #666;
-        border-color: #fff;
-    }
-    .tab-content {
-        display: block !important; /* Garante que todo o conteúdo das abas seja impresso */
-    }
-    .tabs {
-        border-bottom: none;
-    }
-    .tab-button {
-        display: none !important; /* Oculta os botões das abas na impressão */
-    }
-    .skills-list li, .skills-list span {
-        background-color: #f0f0f0;
-        border: 1px solid #ccc;
-        color: #333;
-    }
-    .dashboard-item canvas {
-        display: none !important; /* Oculta os gráficos na impressão, pois podem não ser legíveis */
-    }
-    .chart-description {
-        display: block !important; /* Garante que a descrição dos gráficos seja impressa */
+
+    /* Opcional: Se você quiser exibir uma mensagem específica na impressão */
+    body::before {
+        content: "O conteúdo deste currículo não pode ser impresso ou copiado diretamente. Por favor, utilize o link de compartilhamento ou baixe o PDF para melhor visualização.";
+        visibility: visible !important;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 16px !important;
+        color: #000 !important;
+        background-color: #fff !important;
+        padding: 20px !important;
+        border: 1px solid #ccc !important;
+        text-align: center !important;
+        width: 80% !important;
+        max-width: 500px !important;
+        z-index: 9999 !important;
     }
 }
 
