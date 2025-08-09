@@ -1,3 +1,22 @@
+// NOVO: Revela o conteúdo principal se o JavaScript estiver ativado
+document.addEventListener('DOMContentLoaded', () => {
+    const mainContent = document.getElementById('main-content-wrapper');
+    if (mainContent) {
+        mainContent.style.display = 'block'; // Ou 'flex', 'grid', dependendo do seu layout
+    }
+});
+
+// NOVO: Tenta desabilitar a tecla PrintScreen
+document.addEventListener('keyup', (e) => {
+    if (e.key === 'PrintScreen') {
+        // Tenta limpar a área de transferência. Pode não funcionar em todos os navegadores/contextos.
+        // navigator.clipboard.writeText(''); 
+        alert('A captura de tela foi desabilitada para esta página.'); 
+        e.preventDefault(); // Impede a ação padrão da tecla
+    }
+});
+
+
 // Função para alternar abas (Habilidades)
 function showTab(tabId) {
     // Remove a classe 'active' de todos os botões e conteúdos
