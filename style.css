@@ -24,6 +24,12 @@ body {
     padding: 0;
     scroll-behavior: smooth;
     transition: background-color 0.3s, color 0.3s;
+
+    /* CORREÇÃO: Proteção anti-seleção de texto */
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version */
 }
 
 /* Dark Mode Styles */
@@ -516,22 +522,20 @@ footer {
     .hero-section {
         padding: 40px 10px;
     }
-    .hero-section h1 {
-        font-size: 1.8em;
-    }
     .panel {
         margin-bottom: 15px;
     }
 }
 
-/* Estilos para impressão */
+/* Estilos para impressão (REMOVIDO: @media print para desabilitar impressão) */
+/* Oculta elementos não essenciais para impressão */
 @media print {
     body {
         background-color: #fff;
         color: #000;
     }
-    .hero-section, footer, .main-nav, #toggle-theme, #music-player, .export-options, .dashboard-tip {
-        display: none; /* Oculta elementos não essenciais para impressão */
+    .hero-section, footer, .main-nav, #toggle-theme, #music-player, .export-options, .dashboard-tip, .share-notice {
+        display: none !important; /* Garante que esses elementos não apareçam na impressão */
     }
     .container {
         max-width: 100%;
@@ -559,7 +563,7 @@ footer {
         border-bottom: none;
     }
     .tab-button {
-        display: none; /* Oculta os botões das abas na impressão */
+        display: none !important; /* Oculta os botões das abas na impressão */
     }
     .skills-list li, .skills-list span {
         background-color: #f0f0f0;
@@ -567,9 +571,76 @@ footer {
         color: #333;
     }
     .dashboard-item canvas {
-        display: none; /* Oculta os gráficos na impressão, pois podem não ser legíveis */
+        display: none !important; /* Oculta os gráficos na impressão, pois podem não ser legíveis */
     }
     .chart-description {
-        display: block; /* Garante que a descrição dos gráficos seja impressa */
+        display: block !important; /* Garante que a descrição dos gráficos seja impressa */
     }
+}
+
+
+/* CORREÇÃO: Estilos para o aviso de compartilhamento */
+.share-notice {
+    margin: 20px 0;
+    padding: 15px;
+    border: 1px solid #e0e0e0; /* Borda sutil */
+    border-radius: 8px; /* Bordas arredondadas */
+    background-color: #f9f9f9; /* Fundo claro */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra leve */
+    
+    /* Posicionamento fixo para ser discreto e não afetar o layout */
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999; /* Garante que fique acima de outros elementos */
+    width: 280px; /* Largura fixa para o aviso */
+    text-align: center; /* Centraliza o texto */
+    font-family: Arial, sans-serif; /* Fonte clean */
+    font-size: 0.9em; /* Tamanho da fonte */
+    color: #333; /* Cor do texto */
+
+    /* Propriedades para transição suave (invisível por padrão) */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+    pointer-events: none; /* Permite cliques através dele quando invisível */
+}
+
+/* Classe para mostrar o aviso */
+.share-notice.show {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto; /* Torna o aviso interativo quando visível */
+}
+
+.share-notice #share-button { /* Estilo específico para o botão dentro do aviso */
+    background-color: var(--secondary-color); /* Usando a variável de cor secundária */
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.3s ease;
+    margin-top: 10px; /* Espaçamento acima do botão */
+}
+
+.share-notice #share-button:hover {
+    background-color: var(--primary-color); /* Cor ao passar o mouse */
+}
+
+/* Estilos para Dark Mode do aviso */
+body.dark-mode .share-notice {
+    background-color: var(--dark-mode-panel-bg);
+    border-color: var(--dark-mode-border);
+    box-shadow: var(--dark-mode-shadow);
+    color: var(--dark-mode-text);
+}
+
+body.dark-mode .share-notice #share-button {
+    background-color: var(--primary-color);
+}
+
+body.dark-mode .share-notice #share-button:hover {
+    background-color: var(--secondary-color);
 }
