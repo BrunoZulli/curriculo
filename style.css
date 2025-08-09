@@ -32,6 +32,12 @@ body {
     user-select: none; /* Non-prefixed version */
 }
 
+/* NOVO: Oculta o conteúdo principal por padrão se JavaScript estiver desativado */
+#main-content-wrapper {
+    display: none; /* Oculta o conteúdo por padrão */
+}
+
+
 /* Dark Mode Styles */
 body.dark-mode {
     color: var(--dark-mode-text);
@@ -543,7 +549,7 @@ footer {
 
     /* Opcional: Se você quiser exibir uma mensagem específica na impressão */
     body::before {
-        content: "O conteúdo deste currículo não pode ser impresso ou copiado diretamente. Por favor, utilize o link de compartilhamento ou baixe o PDF ao final da página para melhor visualização.";
+        content: "O conteúdo deste currículo não pode ser impresso ou copiado diretamente. Por favor, utilize o link de compartilhamento ou baixe o PDF protegido.";
         visibility: visible !important;
         position: fixed;
         top: 50%;
@@ -606,18 +612,6 @@ footer {
     font-size: 0.9em;
     transition: background-color 0.3s ease;
     margin-top: 10px; /* Espaçamento acima do botão */
-}
-
-.share-notice #share-button:hover {
-    background-color: var(--primary-color); /* Cor ao passar o mouse */
-}
-
-/* Estilos para Dark Mode do aviso */
-body.dark-mode .share-notice {
-    background-color: var(--dark-mode-panel-bg);
-    border-color: var(--dark-mode-border);
-    box-shadow: var(--dark-mode-shadow);
-    color: var(--dark-mode-text);
 }
 
 body.dark-mode .share-notice #share-button {
