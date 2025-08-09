@@ -254,3 +254,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
     observer.observe(habilidadesSection);
 });
+
+// Proteção anticópia (já está no index.html, mas mantido aqui para referência se preferir)
+// document.addEventListener('copy', function(event) {
+//     event.preventDefault();
+//     const message = "Vocês pode compartilhar essas informações através do link https://brunozulli.github.io/curriculo/";
+//     event.clipboardData.setData('text/plain', message);
+
+//     // Exibir o aviso de compartilhamento
+//     const shareNotice = document.getElementById('share-notice');
+//     shareNotice.classList.add('show'); // Adiciona a classe 'show' para mostrar o aviso
+
+//     // Ocultar o aviso após 5 segundos
+//     setTimeout(() => {
+//         shareNotice.classList.remove('show'); // Remove a classe 'show' para ocultar o aviso
+//     }, 5000);
+// });
+
+// Função para copiar o link do currículo (já está no index.html, mas mantido aqui para referência se preferir)
+// document.getElementById('share-button').addEventListener('click', function() {
+//     const shareLink = "https://brunozulli.github.io/curriculo/";
+//     navigator.clipboard.writeText(shareLink).then(function() {
+//         alert("Link copiado para a área de transferência! Compartilhe com outras pessoas.");
+//     }, function(err) {
+//         console.error('Erro ao copiar o link: ', err);
+//     });
+// });
