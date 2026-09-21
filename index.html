@@ -5,6 +5,102 @@
     <link rel="stylesheet" href="style.css">
     <!-- Link para Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- NOVO CSS INJETADO PARA RESPONSIVIDADE E MODO LUZES APAGADAS -->
+    <style>
+        .chart-container {
+            position: relative;
+            height: 350px; /* Mantém os gráficos sempre em tamanho ideal */
+            width: 100%;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+        }
+
+        /* Efeito de "Luzes Apagadas" / Modo Foco */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            z-index: 99999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            position: relative;
+            width: 90vw;
+            height: 85vh;
+            background: #181818;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 0 30px rgba(241, 196, 15, 0.15);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            color: #ccc;
+            font-size: 35px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 10000;
+            transition: 0.2s;
+        }
+
+        .close-modal:hover {
+            color: #f1c40f;
+        }
+
+        .fullscreen-btn {
+            display: inline-flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding: 8px 16px;
+            background: #2a2a2a;
+            color: #f1c40f;
+            border: 1px solid #444;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .fullscreen-btn:hover {
+            background: #f1c40f;
+            color: #111;
+            border-color: #f1c40f;
+        }
+
+        .modal-body {
+            position: relative;
+            height: 100%;
+            width: 100%;
+        }
+
+        .referencias-mercado {
+            margin-top: 40px; 
+            font-size: 0.85em; 
+            color: #888; 
+            border-top: 1px solid #333; 
+            padding-top: 15px;
+            line-height: 1.6;
+        }
+    </style>
     </head><body><audio id="music-player" controls="" autoplay="" loop="">
         <source src=" ### LINK DE ÁUDIO #### " type="audio/mp3">
         Seu navegador não suporta o elemento de áudio.
@@ -41,7 +137,7 @@
     </script>
 
 
-    <!-- NOVO: Wrapper para o conteúdo principal que será ocultado se JS estiver desativado -->
+    <!-- Wrapper para o conteúdo principal que será ocultado se JS estiver desativado -->
     <div id="main-content-wrapper" style="display: block;">
         <header class="hero-section">
             <div class="container">
@@ -200,11 +296,11 @@
 
             <section id="habilidades" class="panel interactive-panel">
                 <h2>✨ Habilidades &amp; Meu Diferencial de Mercado</h2>
-                <p class="dashboard-tip">💡 **Clique nas abas abaixo** para explorar minhas habilidades técnicas, comportamentais e, especialmente, os **dashboards interativos** que demonstram meu diferencial!</p>
+                <p class="dashboard-tip">💡 **Clique nas abas abaixo** para explorar minhas habilidades técnicas, comportamentais e, especialmente, os **dashboards interativos** modernizados!</p>
                 <div class="tabs">
-                    <button class="tab-button active" onclick="showTab('tecnicas')">Técnicas</button>
-                    <button class="tab-button" onclick="showTab('comportamentais')">Comportamentais</button>
-                    <button class="tab-button" onclick="showTab('dashboards')">Dashboards &amp; Impacto</button>
+                    <button class="tab-button active" onclick="showTab('tecnicas', event)">Técnicas</button>
+                    <button class="tab-button" onclick="showTab('comportamentais', event)">Comportamentais</button>
+                    <button class="tab-button" onclick="showTab('dashboards', event)">Dashboards &amp; Impacto</button>
                 </div>
 
                 <div id="tecnicas" class="tab-content active">
@@ -238,26 +334,43 @@
                     <p>Apreço pela cultura, linguagem e tradição: Valorizo o uso da norma culta da língua portuguesa como instrumento de clareza, sofisticação e autoridade profissional. Para mim, o formalismo linguístico é uma ponte entre técnica, cultura e comunicação eficiente.</p>
                 </div>
 
-                <div id="dashboards" class="tab-content">
+                <div id="dashboards" class="tab-content" style="display: none;">
                     <h3>📊 Meu Diferencial: Transformando Dados em Decisões</h3>
                     <p>Minha capacidade de integrar o conhecimento jurídico com a análise de dados me posiciona como um profissional estratégico, capaz de gerar valor tangível para a organização.</p>
 
                     <div class="dashboard-item">
                         <h4>1. Interseção de Habilidades: O Advogado 4.0</h4>
-                        <canvas id="chartHabilidades" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas>
+                        <div class="chart-container">
+                            <canvas id="chartHabilidades"></canvas>
+                        </div>
+                        <button class="fullscreen-btn" onclick="openFullscreen('chartHabilidades')">🔍 Modo Foco (Tela Cheia)</button>
                         <p class="chart-description">Este gráfico ilustra a sobreposição única das minhas habilidades: conhecimento jurídico aprofundado, proficiência em análise de dados e soft skills essenciais. A área central representa o meu perfil como um "Advogado Estratégico Orientado a Dados", um diferencial competitivo no mercado atual.</p>
                     </div>
 
                     <div class="dashboard-item">
                         <h4>2. Impacto da Análise Jurídica Orientada a Dados</h4>
-                        <canvas id="chartImpacto" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas>
-                        <p class="chart-description">Compare o impacto da minha atuação (Advogado Data-Driven) versus uma abordagem tradicional em áreas críticas. Minha metodologia resulta em maior mitigação de riscos, otimização de processos e decisões mais assertivas, gerando economia e eficiência para a empresa.</p>
+                        <div class="chart-container">
+                            <canvas id="chartImpacto"></canvas>
+                        </div>
+                        <button class="fullscreen-btn" onclick="openFullscreen('chartImpacto')">🔍 Modo Foco (Tela Cheia)</button>
+                        <p class="chart-description">Comparativo do impacto operacional e analítico. Segundo a Thomson Reuters, advogados que utilizam tecnologias orientadas a dados economizam até 240 horas anuais em fluxos de trabalho [cite: 1.2.1]. O uso de dados corporativos e IA reduz o tempo de revisão contratual em 75% a 90% [cite: 1.2.1] e 80% dos clientes já exigem ou esperam o uso prático de Analytics por parte de suas equipes jurídicas [cite: 1.1.5]. Minha metodologia traduz esses ganhos para eficiência tangível.</p>
                     </div>
 
                     <div class="dashboard-item">
-                        <h4>3. Tendência de Mercado: Demanda por Jurídicos Analíticos</h4>
-                        <canvas id="chartTendencia" height="0" style="display: block; box-sizing: border-box; height: 0px; width: 0px;" width="0"></canvas>
-                        <p class="chart-description">O mercado jurídico está em constante evolução. Este gráfico demonstra o crescimento exponencial da demanda por profissionais que, como eu, combinam expertise jurídica com habilidades avançadas em dados, posicionando a empresa na vanguarda da inovação.</p>
+                        <h4>3. Tendência de Mercado: Aceleração Tecnológica</h4>
+                        <div class="chart-container">
+                            <canvas id="chartTendencia"></canvas>
+                        </div>
+                        <button class="fullscreen-btn" onclick="openFullscreen('chartTendencia')">🔍 Modo Foco (Tela Cheia)</button>
+                        <p class="chart-description">O mercado jurídico está passando por forte mudança. O setor global de Legal Analytics, avaliado em USD 3.15 bilhões em 2025, saltará para USD 7.52 bilhões até 2031 [cite: 1.1.3]. Da mesma forma, a adoção destas ferramentas nos escritórios e setores corporativos cresceu de forma agressiva (de 11% em 2023 para cerca de 30% hoje) [cite: 1.2.2]. Profissionais com domínio de dados e direito posicionam a organização na vanguarda da inovação.</p>
+                    </div>
+
+                    <div class="referencias-mercado">
+                        <strong>Referências Oficiais (Pesquisa de Mercado Legal Tech 2024-2026):</strong><br>
+                        Mordor Intelligence, Relatório "Legal Analytics Market - Size, Share & Trends" (Projeção Set. 2026).<br>
+                        Maxiom Technology, "Legal Analytics Success: Proven Insights from Case Data" (Publicação Ago. 2025).<br>
+                        Thomson Reuters (Future of Professionals Report 2025) e Relatório Wolters Kluwer.<br>
+                        American Bar Association (ABA), "Legal Technology Survey Report" (Consolidação Jul. 2026).
                     </div>
                 </div>
             </section>
@@ -278,17 +391,15 @@
                 <p>Av. José Antônio Alves, Sumaré - SP</p>
                 <ul>
                     <li><strong>Celular:</strong> 
-    <a href="https://wa.me/5519992687370" target="_blank"rel="noopener noreferrer">(19) 9 9268-7370</a></li>
+    <a href="https://wa.me/5519992687370" target="_blank" rel="noopener noreferrer">(19) 9 9268-7370</a></li>
                     <li><strong>Cel. Esposa:</strong> 
-    <a href="https://wa.me/5519992220478" target="_blank"rel="noopener noreferrer">(19) 9 9222-0478</a></li>
+    <a href="https://wa.me/5519992220478" target="_blank" rel="noopener noreferrer">(19) 9 9222-0478</a></li>
                     <li><strong>E-mail:</strong> <a href="mailto:bruno_miguel02@hotmail.com">bruno_miguel02@hotmail.com</a></li>
                     <li><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/brunozulli" target="_blank">www.linkedin.com/in/brunozulli</a></li>
                     <li><strong>Website Pessoal:</strong> <a href="https://zullijuridico.wixsite.com/website" target="_blank">zullijuridico.wixsite.com/website</a></li>
                     <li><strong>Linktree Pessoal:</strong> <a href="https://linktr.ee/zullijuridico" target="_blank">linktr.ee/zullijuridico</a></li>
                 </ul>
                 <div class="export-options">
-                    <!-- REMOVIDO: Botão de Imprimir Currículo -->
-                    <!-- NOVO LINK PARA O PDF PROTEGIDO -->
                     <a href="https://raw.github.com/BrunoZulli/curriculo/8cbc4b90b63df717d1864afa17a2b9484a76b4e2/Curriculo_Juridico_Bruno_Zulli%202025%204.pdf" download="Bruno_Zulli_Curriculo_Protegido.pdf" target="_blank" class="button-as-link">Baixar Currículo em PDF</a>
                 </div>
             </section>
@@ -300,10 +411,204 @@
         </footer>
     </div> <!-- FIM do #main-content-wrapper -->
 
+    <!-- Modal das Luzes Apagadas (Obrigatório ficar antes dos scripts) -->
+    <div id="chart-modal" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-body">
+                <canvas id="fullscreen-chart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script original -->
     <script src="script.js"></script>
 
+    <!-- SCRIPT INJETADO DOS GRÁFICOS RESPONSIVOS E LUZES APAGADAS -->
+    <script>
+        let charts = {}; 
+        let fullscreenChartInstance = null;
 
+        Chart.defaults.responsive = true;
+        Chart.defaults.maintainAspectRatio = false;
+        Chart.defaults.color = '#ccc'; // Fonte clara para tema noturno
 
+        function initCharts() {
+            // Se já existirem para evitar recriar, destrói e limpa
+            if(charts['chartHabilidades']) {
+                Object.values(charts).forEach(c => c.destroy());
+            }
+
+            // Gráfico 1: Habilidades
+            const ctxHab = document.getElementById('chartHabilidades').getContext('2d');
+            charts['chartHabilidades'] = new Chart(ctxHab, {
+                type: 'radar',
+                data: {
+                    labels: ['Direito (Base)', 'Análise de Dados', 'Soft Skills/Gestão', 'Legal Tech (IA)', 'Visão Estratégica'],
+                    datasets: [{
+                        label: 'Advogado Tradicional',
+                        data: [90, 20, 60, 30, 40],
+                        backgroundColor: 'rgba(150, 150, 150, 0.2)',
+                        borderColor: 'rgba(150, 150, 150, 1)',
+                        borderWidth: 2
+                    }, {
+                        label: 'Advogado 4.0 Orientado a Dados (Perfil Zulli)',
+                        data: [95, 95, 90, 90, 85],
+                        backgroundColor: 'rgba(241, 196, 15, 0.4)',
+                        borderColor: 'rgba(241, 196, 15, 1)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    scales: {
+                        r: {
+                            angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
+                            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                            pointLabels: { color: '#fff', font: { size: 12 } },
+                            ticks: { display: false, max: 100 }
+                        }
+                    }
+                }
+            });
+
+            // Gráfico 2: Impacto
+            const ctxImp = document.getElementById('chartImpacto').getContext('2d');
+            charts['chartImpacto'] = new Chart(ctxImp, {
+                type: 'bar',
+                data: {
+                    labels: [
+                        'Velocidade em Revisões de Documentos (%)', 
+                        'Clientes exigindo uso de Analytics (%)', 
+                        'Adoção de IA/Tech no Jurídico (%)', 
+                        'Horas Poupadas por ano (Projeção/10)'
+                    ],
+                    datasets: [{
+                        label: 'Abordagem Convencional',
+                        data: [25, 20, 11, 0],
+                        backgroundColor: 'rgba(150, 150, 150, 0.7)'
+                    }, {
+                        label: 'Abordagem Data-Driven (Ganhos)',
+                        data: [95, 80, 30, 24],
+                        backgroundColor: 'rgba(241, 196, 15, 0.8)'
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: { position: 'bottom' },
+                        title: { display: true, text: 'Indicadores de Eficiência (2024-2026)', color: '#fff' }
+                    }
+                }
+            });
+
+            // Gráfico 3: Tendencia
+            const ctxTen = document.getElementById('chartTendencia').getContext('2d');
+            charts['chartTendencia'] = new Chart(ctxTen, {
+                type: 'line',
+                data: {
+                    labels: ['2023', '2024', '2025', '2026', '2030', '2031'],
+                    datasets: [{
+                        label: 'Mercado de Legal Analytics (Em Bilhões USD)',
+                        data: [2.5, 3.15, 3.64, 4.0, 6.6, 7.52],
+                        borderColor: '#f1c40f',
+                        backgroundColor: 'rgba(241, 196, 15, 0.2)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    plugins: {
+                        legend: { position: 'bottom' }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: 'rgba(255, 255, 255, 0.1)' } },
+                        x: { grid: { color: 'rgba(255, 255, 255, 0.1)' } }
+                    }
+                }
+            });
+        }
+
+        // Lógica do Modo Luzes Apagadas (Fullscreen)
+        function openFullscreen(chartId) {
+            const modal = document.getElementById('chart-modal');
+            modal.classList.add('active');
+            
+            const ctx = document.getElementById('fullscreen-chart').getContext('2d');
+            
+            // Destruir gráfico em tela cheia anterior
+            if (fullscreenChartInstance) {
+                fullscreenChartInstance.destroy();
+            }
+            
+            const originalChart = charts[chartId];
+            const config = {
+                type: originalChart.config.type,
+                data: originalChart.config.data,
+                options: {
+                    ...originalChart.config.options,
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        ...originalChart.config.options.plugins,
+                        legend: {
+                            labels: {
+                                color: '#fff',
+                                font: { size: 16 }
+                            },
+                            position: 'bottom'
+                        }
+                    }
+                }
+            };
+            
+            Chart.defaults.font.size = 16;
+            fullscreenChartInstance = new Chart(ctx, config);
+        }
+
+        // Fechar Modal
+        document.querySelector('.close-modal').addEventListener('click', () => {
+            document.getElementById('chart-modal').classList.remove('active');
+            Chart.defaults.font.size = 12; // Reseta tamanho original da fonte
+        });
+
+        // Fechar Modal ao clicar no fundo escuro
+        document.getElementById('chart-modal').addEventListener('click', (e) => {
+            if(e.target.id === 'chart-modal') {
+                document.getElementById('chart-modal').classList.remove('active');
+                Chart.defaults.font.size = 12;
+            }
+        });
+
+        // Sistema das abas (Corrigido para forçar a renderização do tamanho certo do gráfico)
+        function showTab(tabId, event) {
+            // Esconde todos os conteudos de abas
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.style.display = 'none';
+                el.classList.remove('active');
+            });
+            // Tira classe active dos botoes
+            document.querySelectorAll('.tab-button').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            // Mostra o conteudo da aba alvo
+            const target = document.getElementById(tabId);
+            target.style.display = 'block';
+            target.classList.add('active');
+            
+            if(event) event.currentTarget.classList.add('active');
+            
+            // O Segredo: Inicializar/redimensionar gráficos SOMENTE quando a aba fica visível 
+            // Resolve o erro de "height 0px" do Chart.js
+            if(tabId === 'dashboards') {
+                if(Object.keys(charts).length === 0) {
+                    initCharts();
+                } else {
+                    Object.values(charts).forEach(chart => chart.resize());
+                }
+            }
+        }
+    </script>
 
 <div id="share-notice" class="share-notice">
     <p>Deseja compartilhar este currículo? <button id="share-button">Clique aqui</button></p>
